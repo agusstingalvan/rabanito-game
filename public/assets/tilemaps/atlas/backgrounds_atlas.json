@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "backgrounds_atlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1600,
+				"h": 600
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BackgroundCielo.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 800,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					}
+				},
+				{
+					"filename": "MenuBackground.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 800,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					},
+					"frame": {
+						"x": 800,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:57b4f5d46054f7725768dde52197769d:5654a817896c84f2edadb33e24bdeeba:64ebec67a9bfe9bc7e864a7e76ff1f1a$"
+	}
+}

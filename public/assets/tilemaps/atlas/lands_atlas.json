@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "lands_atlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 128,
+				"h": 64
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "TerrenoAmarrillo.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "TerrenoVerde.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 64,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:82f510db29cc76a3cbd98fb601ca83fc:11ad0638394cf8edc3403aa86559fba5:6c0b8f396c8b751685158cf3b5814967$"
+	}
+}
