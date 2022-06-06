@@ -1,9 +1,9 @@
 import Player from "../../js/objects/Player.js";
 
 let score, tiempo, gameOver, cursors, player, textScore, textTime;
-export default class Level1 extends Phaser.Scene {
+export default class Level2 extends Phaser.Scene {
     constructor() {
-        super("Level1");
+        super("Level2");
     }
     init(data) {
         score = data.score;
@@ -11,7 +11,7 @@ export default class Level1 extends Phaser.Scene {
         gameOver = data.gameOver
     }
     create() {
-        const map = this.make.tilemap({ key: "map_level1" });
+        const map = this.make.tilemap({ key: "map_level2" });
         const tiledBackgrounds = map.addTilesetImage(
             "backgrounds_atlas",
             "tiledBackgrounds"
@@ -33,6 +33,8 @@ export default class Level1 extends Phaser.Scene {
         plataforms.setCollisionByProperty({ collides: true });
 
         cursors = this.input.keyboard.createCursorKeys();
+
+        
 
         //Player
         const { x, y } = map.findObject(
@@ -73,32 +75,35 @@ export default class Level1 extends Phaser.Scene {
             }
         });
         textScore = this.add
-            .text(780, 10, "Puntos: 0", {
-                font: "18px Arial",
-                backgroundColor: "#0f3f30",
-                padding: 5,
-            })
-            .setOrigin(1, 0);
+        .text(780, 10, "Puntos: 0", {
+            font: "18px Arial",
+            backgroundColor: "#0f3f30",
+            padding: 5,
+        })
+        .setOrigin(1, 0);
 
-        textTime = this.add
-            .text(20, 10, `Tiempo: ${tiempo}`, {
-                font: "13px Arial",
-                backgroundColor: "#0f3f30",
-                padding: 5,
-            })
-            .setOrigin(0, 0);
+    textTime = this.add
+        .text(20, 10, `Tiempo: ${tiempo}`, {
+            font: "13px Arial",
+            backgroundColor: "#0f3f30",
+            padding: 5,
+        })
+        .setOrigin(0, 0);
 
-        this.time.addEvent({
-            delay: 1000,
-            callback: this.reloj,
-            callbackScope: this,
-            loop: true,
-        });
+    this.time.addEvent({
+        delay: 1000,
+        callback: this.reloj,
+        callbackScope: this,
+        loop: true,
+    });
         this.physics.add.collider(player, plataforms);
         this.physics.add.collider(zanahorias, plataforms);
-        this.physics.add.overlap(player, zanahorias, this.collectCarrot, null, this);
+        this.physics.add.overlap(player, zanahorias, this.collectCarrot,  null, this);
+
+        
     }
     update() {
+      
         if (cursors.left.isDown) {
             player.setVelocityX(-160).setFlipX(true);
             player.anims.play("run", true);
@@ -113,9 +118,10 @@ export default class Level1 extends Phaser.Scene {
             player.setVelocityY(-260);
         }
 
-        if (score >= 60) {
-            this.scene.start("Level2", { score: score, tiempo: tiempo, gameOver });
+        if (score >= 120) {
+            this.scene.start("Level3", { score: score, tiempo: tiempo, gameOver: gameOver });
         }
+        
     }
 
     collectCarrot(player, carrot) {
@@ -127,5 +133,8 @@ export default class Level1 extends Phaser.Scene {
     reloj() {
         tiempo -= 1;
         textTime.setText(`Tiempo: ${tiempo}`);
+        if(tiempo === 0){
+            gameOver = true;
+        }
     }
 }

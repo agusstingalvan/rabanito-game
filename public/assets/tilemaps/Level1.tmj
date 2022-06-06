@@ -69,11 +69,11 @@
                  "name":"",
                  "point":true,
                  "rotation":0,
-                 "type":"zabahorias",
+                 "type":"zanahorias",
                  "visible":true,
                  "width":0,
-                 "x":146.181818181818,
-                 "y":94.969696969697
+                 "x":164.363636363636,
+                 "y":46.4848484848485
                 }, 
                 {
                  "height":0,
@@ -84,8 +84,8 @@
                  "type":"zanahorias",
                  "visible":true,
                  "width":0,
-                 "x":474,
-                 "y":162
+                 "x":746.727272727273,
+                 "y":274.121212121212
                 }, 
                 {
                  "height":0,
@@ -96,8 +96,8 @@
                  "type":"zanahorias",
                  "visible":true,
                  "width":0,
-                 "x":393.636363636364,
-                 "y":176.848484848485
+                 "x":430,
+                 "y":116.242424242424
                 }, 
                 {
                  "height":0,
@@ -108,8 +108,8 @@
                  "type":"zanahorias",
                  "visible":true,
                  "width":0,
-                 "x":200,
-                 "y":346
+                 "x":196.969696969697,
+                 "y":303.575757575758
                 }, 
                 {
                  "height":18,

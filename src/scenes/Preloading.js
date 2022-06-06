@@ -1,4 +1,4 @@
-let tiempo = 30,
+let tiempo = 60,
     score = 0;
 export default class Preloading extends Phaser.Scene {
     constructor() {
@@ -13,17 +13,38 @@ export default class Preloading extends Phaser.Scene {
             "map_level1",
             "public/assets/tilemaps/Level1.json"
         );
+        this.load.tilemapTiledJSON(
+            "map_level2",
+            "public/assets/tilemaps/Level2.json"
+        );
+        this.load.tilemapTiledJSON("map_level3", "public/assets/tilemaps/Level3.json")
         this.load.image(
             "tiledBackgrounds",
             "public/assets/tilemaps/atlas/backgrounds_atlas.png"
         );
-        
+
         this.load.image(
             "tiledLands",
             "public/assets/tilemaps/atlas/lands_atlas.png"
         );
-        this.load.spritesheet('player-run', 'public/assets/images/Player/RunSheet.png', {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('player-idle', 'public/assets/images/Player/IdleSheet.png', {frameWidth: 64, frameHeight: 64});
+        this.load.image(
+            "obj_zanahoria",
+            "public/assets/images/Items/Zanahoria.png"
+        );
+        this.load.image(
+            "obj_cerdito",
+            "public/assets/images/Items/Cerdito.png"
+        );
+        this.load.spritesheet(
+            "player-run",
+            "public/assets/images/Player/RunSheet.png",
+            { frameWidth: 64, frameHeight: 64 }
+        );
+        this.load.spritesheet(
+            "player-idle",
+            "public/assets/images/Player/IdleSheet.png",
+            { frameWidth: 64, frameHeight: 64 }
+        );
     }
     create() {
         this.add.image(400, 300, "bg_sky");
@@ -37,6 +58,7 @@ export default class Preloading extends Phaser.Scene {
         this.scene.start("Level1", {
             score,
             tiempo,
+            gameOver: false
         });
     }
 }

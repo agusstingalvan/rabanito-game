@@ -1,17 +1,14 @@
 import Player from "../../js/objects/Player.js";
 
-let score, tiempo, gameOver, cursors, player, textScore, textTime;
-export default class Level1 extends Phaser.Scene {
-    constructor() {
-        super("Level1");
-    }
-    init(data) {
+let score, tiempo, cursors, player, textScore, textTime, scene;
+export default class LevelContainer {
+    constructor(scene, data) {
         score = data.score;
-        tiempo = data.tiempo;
-        gameOver = data.gameOver
+        tiempo = data.tiempo;   
+        scene = scene  
     }
     create() {
-        const map = this.make.tilemap({ key: "map_level1" });
+        const map = scene.make.tilemap({ key: "map_level1" });
         const tiledBackgrounds = map.addTilesetImage(
             "backgrounds_atlas",
             "tiledBackgrounds"
@@ -20,7 +17,6 @@ export default class Level1 extends Phaser.Scene {
             "lands_atlas",
             "tiledLands"
         );
-        const objectsLayer = map.getObjectLayer("Objetos");
 
         map.createLayer("Sky", tiledBackgrounds, 0, 0);
         const plataforms = map.createLayer(
@@ -34,44 +30,6 @@ export default class Level1 extends Phaser.Scene {
 
         cursors = this.input.keyboard.createCursorKeys();
 
-        //Player
-        const { x, y } = map.findObject(
-            "Objetos",
-            (obj) => obj.name === "player"
-        );
-
-        player = new Player(this, x, y, "player-idle");
-
-        this.anims.create({
-            key: "run",
-            frames: this.anims.generateFrameNumbers("player-run", {
-                start: 0,
-                end: 3,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-        this.anims.create({
-            key: "idle",
-            frames: this.anims.generateFrameNumbers("player-idle", {
-                start: 0,
-                end: 3,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
-
-        player.anims.play("idle");
-        const zanahorias = this.physics.add.group();
-
-        objectsLayer.objects.forEach((objs) => {
-            console.log(objs);
-            switch (objs.type) {
-                case "zanahorias":
-                    zanahorias.create(objs.x, objs.y, "obj_zanahoria");
-                    break;
-            }
-        });
         textScore = this.add
             .text(780, 10, "Puntos: 0", {
                 font: "18px Arial",
@@ -94,9 +52,37 @@ export default class Level1 extends Phaser.Scene {
             callbackScope: this,
             loop: true,
         });
+
+        //Player
+        const spawnPlayer = map.findObject(
+            "Objetos",
+            (obj) => obj.name === "player"
+        );
+
+        player = new Player(this, spawnPlayer.x, spawnPlayer.y, "player-idle");
+
+        this.anims.create({
+            key: "run",
+            frames: this.anims.generateFrameNumbers("player-run", {
+                start: 0,
+                end: 3,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("player-idle", {
+                start: 0,
+                end: 3,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        player.anims.play("idle");
+
         this.physics.add.collider(player, plataforms);
-        this.physics.add.collider(zanahorias, plataforms);
-        this.physics.add.overlap(player, zanahorias, this.collectCarrot, null, this);
     }
     update() {
         if (cursors.left.isDown) {
@@ -113,16 +99,8 @@ export default class Level1 extends Phaser.Scene {
             player.setVelocityY(-260);
         }
 
-        if (score >= 60) {
-            this.scene.start("Level2", { score: score, tiempo: tiempo, gameOver });
-        }
     }
 
-    collectCarrot(player, carrot) {
-        carrot.disableBody(true, true);
-        score += 15;
-        textScore.setText(`Puntos: ${score}`);
-    }
 
     reloj() {
         tiempo -= 1;
