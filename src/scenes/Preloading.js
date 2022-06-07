@@ -61,6 +61,8 @@ export default class Preloading extends Phaser.Scene {
                 color: "white",
             })
             .setOrigin(0.5);
-        this.scene.start("Level1", globalVariables);
+        setTimeout(()=>{
+            this.scene.start("Level1", globalVariables);
+        }, 3000)
     }
 }
