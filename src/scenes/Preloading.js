@@ -45,6 +45,12 @@ export default class Preloading extends Phaser.Scene {
             "public/assets/images/Player/IdleSheet.png",
             { frameWidth: 64, frameHeight: 64 }
         );
+        this.load.image('bomba', '/public/assets/images/Items/Bomba.png');
+
+        this.load.audio("music", "public/assets/sounds/Music.mp3");
+        this.load.audio("jumpSound", "public/assets/sounds/Jump.mp3");
+        this.load.audio("passLevel", "public/assets/sounds/passLevel.mp3");
+        this.load.audio("death", "public/assets/sounds/death.mp3");
     }
     create() {
         this.add.image(400, 300, "bg_sky");

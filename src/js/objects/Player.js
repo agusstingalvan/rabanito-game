@@ -9,4 +9,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.setBounce(0.5);
     }
+    runRight(){
+        this.setVelocityX(160).setFlipX(false);
+        this.anims.play("run", true);
+    }
+    runLeft(){
+        this.setVelocityX(-160).setFlipX(true);
+        this.anims.play("run", true);
+    }
+    saltar(sound){
+        sound.play();
+        this.setVelocityY(-260);
+    }
 }

@@ -1,7 +1,15 @@
 import Player from "../../js/objects/Player.js";
 import isGameOver from "../../js/functions/isGameOver.js";
 
-let score, tiempo, gameOver, cursors, player, textScore, textTime;
+let score,
+    tiempo,
+    gameOver,
+    cursors,
+    player,
+    textScore,
+    textTime,
+    zanahorias,
+    bombas;
 export default class Level3 extends Phaser.Scene {
     constructor() {
         super("Level3");
@@ -81,7 +89,7 @@ export default class Level3 extends Phaser.Scene {
         });
 
         player.anims.play("idle");
-        const zanahorias = this.physics.add.group();
+        zanahorias = this.physics.add.group();
 
         objectsLayer.objects.forEach((objs) => {
             console.log(objs);
@@ -91,6 +99,8 @@ export default class Level3 extends Phaser.Scene {
                     break;
             }
         });
+        bombas = this.physics.add.group();
+
         textScore = this.add
             .text(780, 10, "Puntos: 0", {
                 font: "18px Arial",
@@ -115,6 +125,8 @@ export default class Level3 extends Phaser.Scene {
         });
         this.physics.add.collider(player, plataforms);
         this.physics.add.collider(zanahorias, plataforms);
+        this.physics.add.collider(bombas, plataforms);
+
         this.physics.add.collider(cerdito, plataforms);
         this.physics.add.overlap(
             player,
@@ -123,25 +135,28 @@ export default class Level3 extends Phaser.Scene {
             null,
             this
         );
+        this.physics.add.overlap(player, bombas, this.hitBomba, null, this);
+
         this.physics.add.overlap(player, cerdito, this.isWin, null, this);
+        this.initSounds();
     }
     update() {
         if (gameOver) {
+            this.deathSFX.play();
+            this.sound.removeByKey("music");
             isGameOver(this, { score, tiempo, gameOver }, player);
             return;
         }
         if (cursors.left.isDown) {
-            player.setVelocityX(-160).setFlipX(true);
-            player.anims.play("run", true);
+            player.runLeft();
         } else if (cursors.right.isDown) {
-            player.setVelocityX(160).setFlipX(false);
-            player.anims.play("run", true);
+            player.runRight();
         } else {
             player.setVelocityX(0);
             player.anims.play("idle", true);
         }
         if (cursors.up.isDown && player.body.blocked.down) {
-            player.setVelocityY(-260);
+            player.saltar(this.jumpSoundSFX);
         }
     }
 
@@ -149,8 +164,22 @@ export default class Level3 extends Phaser.Scene {
         carrot.disableBody(true, true);
         score += 15;
         textScore.setText(`Puntos: ${score}`);
-    }
 
+        bombas.createMultiple({ key: "bomba", repeat: 1 });
+        bombas.children.iterate((bomb) => {
+            bomb.setScale(0.5).refreshBody();
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.setX(Phaser.Math.FloatBetween(100, 700));
+            bomb.allowGravity = false;
+        });
+    }
+    hitBomba(player, bomba) {
+        player.setTint(0xff0000);
+        bomba.setTint(0xff0000);
+        gameOver = true;
+    }
     onSeconds() {
         tiempo -= 1;
         textTime.setText(`Tiempo: ${tiempo}`);
@@ -159,10 +188,21 @@ export default class Level3 extends Phaser.Scene {
         }
     }
     isWin() {
-        this.scene.start("Win", {
-            score: score,
-            tiempo: tiempo,
-            gameOver: gameOver,
-        });
+        if (zanahorias.countActive(true) === 0) {
+            this.passLevelSFX.play();
+            this.sound.removeByKey("music");
+            this.scene.start("Win", {
+                score: score,
+                tiempo: tiempo,
+                gameOver: gameOver,
+            });
+        }
+    }
+    initSounds(volume = 0.3) {
+        this.sound.volume = volume;
+        this.sound.add("music", { loop: true, volume: 0.2 }).play();
+        this.jumpSoundSFX = this.sound.add("jumpSound");
+        this.passLevelSFX = this.sound.add("passLevel");
+        this.deathSFX = this.sound.add("death");
     }
 }
