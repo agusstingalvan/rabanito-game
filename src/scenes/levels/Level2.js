@@ -1,4 +1,5 @@
 import Player from "../../js/objects/Player.js";
+import isGameOver from "../../js/functions/isGameOver.js";
 
 let score, tiempo, gameOver, cursors, player, textScore, textTime;
 export default class Level2 extends Phaser.Scene {
@@ -92,7 +93,7 @@ export default class Level2 extends Phaser.Scene {
 
     this.time.addEvent({
         delay: 1000,
-        callback: this.reloj,
+        callback: this.onSeconds,
         callbackScope: this,
         loop: true,
     });
@@ -100,10 +101,13 @@ export default class Level2 extends Phaser.Scene {
         this.physics.add.collider(zanahorias, plataforms);
         this.physics.add.overlap(player, zanahorias, this.collectCarrot,  null, this);
 
-        
+        this.physics.world.setBoundsCollision(true, true, true, false);
     }
     update() {
-      
+        if(player.y > 600 || gameOver){
+            isGameOver(this, {score, tiempo, gameOver}, player)
+            return
+        }
         if (cursors.left.isDown) {
             player.setVelocityX(-160).setFlipX(true);
             player.anims.play("run", true);
@@ -121,7 +125,6 @@ export default class Level2 extends Phaser.Scene {
         if (score >= 120) {
             this.scene.start("Level3", { score: score, tiempo: tiempo, gameOver: gameOver });
         }
-        
     }
 
     collectCarrot(player, carrot) {
@@ -130,10 +133,10 @@ export default class Level2 extends Phaser.Scene {
         textScore.setText(`Puntos: ${score}`);
     }
 
-    reloj() {
+    onSeconds() {
         tiempo -= 1;
         textTime.setText(`Tiempo: ${tiempo}`);
-        if(tiempo === 0){
+        if(tiempo <= 0){
             gameOver = true;
         }
     }

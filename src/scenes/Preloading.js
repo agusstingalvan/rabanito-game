@@ -1,5 +1,5 @@
-let tiempo = 60,
-    score = 0;
+import { globalVariables } from "../js/globalVariables.js";
+
 export default class Preloading extends Phaser.Scene {
     constructor() {
         super("Preloading");
@@ -55,10 +55,6 @@ export default class Preloading extends Phaser.Scene {
                 color: "white",
             })
             .setOrigin(0.5);
-        this.scene.start("Level1", {
-            score,
-            tiempo,
-            gameOver: false
-        });
+        this.scene.start("Level1", globalVariables);
     }
 }

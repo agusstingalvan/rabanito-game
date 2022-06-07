@@ -1,17 +1,17 @@
 let score, tiempo, gameOver, keyR;
-export default class Win extends Phaser.Scene{
+export default class GameOver extends Phaser.Scene{
     constructor(){
-        super("Win");
+        super('GameOver');
     }
     init(data){
         score = data.score;
         tiempo = data.tiempo;
-        gameOver = data.gameOver
+        gameOver = data.gameOver;
     }
     create(){
-        this.add.text(400, 300, `Ganaste! \nTus puntos son: ${score}`);
-        this.add.text(0, 0, `Presionar "R" para volver al principal`);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        this.add.text(400, 300, `Perdiste! \nTus puntos son: ${score}\nTu tiempo: ${tiempo}`).setOrigin(0.5)
+        this.add.text(400, 400, `Presionar "R" para volver al principal`).setOrigin(0.5)
     }
     update(){
         if(keyR.isDown){

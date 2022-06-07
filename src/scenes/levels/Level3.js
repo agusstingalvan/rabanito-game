@@ -1,4 +1,5 @@
 import Player from "../../js/objects/Player.js";
+import isGameOver from "../../js/functions/isGameOver.js";
 
 let score, tiempo, gameOver, cursors, player, textScore, textTime;
 export default class Level3 extends Phaser.Scene {
@@ -23,9 +24,24 @@ export default class Level3 extends Phaser.Scene {
         const objectsLayer = map.getObjectLayer("Objetos");
 
         map.createLayer("Sky", tiledBackgrounds, 0, 0);
-        const cerditoObj = map.findObject("Objetos", (data)=> data.name === "cerdito");
-        const cerdito = this.physics.add.sprite(cerditoObj.x, cerditoObj.y, "obj_cerdito");
+        const cerditoObj = map.findObject(
+            "Objetos",
+            (data) => data.name === "cerdito"
+        );
+        const cerdito = this.physics.add.sprite(
+            cerditoObj.x,
+            cerditoObj.y,
+            "obj_cerdito"
+        );
         cerdito.setCollideWorldBounds(true);
+        this.tweens.add({
+            targets: cerdito,
+            x: 200,
+            duration: 1500,
+            ease: "Sine.easeInOut",
+            repeat: -1,
+            yoyo: true,
+        });
         const plataforms = map.createLayer(
             "Plataforms",
             tiledPlataformas,
@@ -36,8 +52,6 @@ export default class Level3 extends Phaser.Scene {
         plataforms.setCollisionByProperty({ collides: true });
 
         cursors = this.input.keyboard.createCursorKeys();
-
-        
 
         //Player
         const { x, y } = map.findObject(
@@ -78,37 +92,44 @@ export default class Level3 extends Phaser.Scene {
             }
         });
         textScore = this.add
-        .text(780, 10, "Puntos: 0", {
-            font: "18px Arial",
-            backgroundColor: "#0f3f30",
-            padding: 5,
-        })
-        .setOrigin(1, 0);
+            .text(780, 10, "Puntos: 0", {
+                font: "18px Arial",
+                backgroundColor: "#0f3f30",
+                padding: 5,
+            })
+            .setOrigin(1, 0);
 
-    textTime = this.add
-        .text(20, 10, `Tiempo: ${tiempo}`, {
-            font: "13px Arial",
-            backgroundColor: "#0f3f30",
-            padding: 5,
-        })
-        .setOrigin(0, 0);
+        textTime = this.add
+            .text(20, 10, `Tiempo: ${tiempo}`, {
+                font: "13px Arial",
+                backgroundColor: "#0f3f30",
+                padding: 5,
+            })
+            .setOrigin(0, 0);
 
-    this.time.addEvent({
-        delay: 1000,
-        callback: this.reloj,
-        callbackScope: this,
-        loop: true,
-    });
+        this.time.addEvent({
+            delay: 1000,
+            callback: this.onSeconds,
+            callbackScope: this,
+            loop: true,
+        });
         this.physics.add.collider(player, plataforms);
         this.physics.add.collider(zanahorias, plataforms);
         this.physics.add.collider(cerdito, plataforms);
-        this.physics.add.overlap(player, zanahorias, this.collectCarrot, null, this);
+        this.physics.add.overlap(
+            player,
+            zanahorias,
+            this.collectCarrot,
+            null,
+            this
+        );
         this.physics.add.overlap(player, cerdito, this.isWin, null, this);
-
-        
     }
     update() {
-      
+        if (gameOver) {
+            isGameOver(this, { score, tiempo, gameOver }, player);
+            return;
+        }
         if (cursors.left.isDown) {
             player.setVelocityX(-160).setFlipX(true);
             player.anims.play("run", true);
@@ -122,11 +143,6 @@ export default class Level3 extends Phaser.Scene {
         if (cursors.up.isDown && player.body.blocked.down) {
             player.setVelocityY(-260);
         }
-
-        // setTimeout(()=>{
-        // this.scene.start("Win", { score: score, tiempo: tiempo, gameOver: gameOver });
-            
-        // }, 1000)        
     }
 
     collectCarrot(player, carrot) {
@@ -135,14 +151,18 @@ export default class Level3 extends Phaser.Scene {
         textScore.setText(`Puntos: ${score}`);
     }
 
-    reloj() {
+    onSeconds() {
         tiempo -= 1;
         textTime.setText(`Tiempo: ${tiempo}`);
-        if(tiempo === 0){
+        if (tiempo <= 0) {
             gameOver = true;
         }
     }
-    isWin(){
-        this.scene.start("Win", { score: score, tiempo: tiempo, gameOver: gameOver });
+    isWin() {
+        this.scene.start("Win", {
+            score: score,
+            tiempo: tiempo,
+            gameOver: gameOver,
+        });
     }
 }

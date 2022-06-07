@@ -1,9 +1,10 @@
+import Menu from "../scenes/Menu.js";
+import Preloading from "../scenes/Preloading.js";
 import Level1 from "../scenes/levels/Level1.js";
 import Level2 from "../scenes/levels/Level2.js";
 import Level3 from "../scenes/levels/Level3.js";
-import Menu from "../scenes/Menu.js";
-import Preloading from "../scenes/Preloading.js";
 import Win from "../scenes/Win.js";
+import GameOver from "../scenes/GameOver.js";
 
 
 
@@ -18,5 +19,5 @@ export const config = {
             debug: false
         }
     },
-    scene: [Menu, Preloading, Level1, Level2, Level3, Win]
+    scene: [Menu, Preloading, Level1, Level2, Level3, Win, GameOver]
 }
