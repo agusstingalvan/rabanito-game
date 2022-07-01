@@ -204,5 +204,6 @@ export default class Level3 extends Phaser.Scene {
         this.jumpSoundSFX = this.sound.add("jumpSound");
         this.passLevelSFX = this.sound.add("passLevel");
         this.deathSFX = this.sound.add("death");
+        this.pickSFX = this.sound.add("pick");
     }
 }

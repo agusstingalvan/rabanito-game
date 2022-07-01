@@ -51,6 +51,8 @@ export default class Preloading extends Phaser.Scene {
         this.load.audio("jumpSound", "public/assets/sounds/Jump.mp3");
         this.load.audio("passLevel", "public/assets/sounds/passLevel.mp3");
         this.load.audio("death", "public/assets/sounds/death.mp3");
+        this.load.audio("pick", "public/assets/sounds/pickup_coin.mp3");
+
     }
     create() {
         this.add.image(400, 300, "bg_sky");

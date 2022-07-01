@@ -16,7 +16,7 @@ export default class Level2 extends Phaser.Scene {
     }
     init(data) {
         score = data.score;
-        tiempo = data.tiempo;
+        tiempo = data.tiempo + 60;
         gameOver = data.gameOver;
     }
     create() {
@@ -157,7 +157,7 @@ export default class Level2 extends Phaser.Scene {
         score += 15;
         textScore.setText(`Puntos: ${score}`);
 
-        bombas.createMultiple({ key: "bomba", repeat: 1 });
+        bombas.createMultiple({ key: "bomba", repeat: 0 });
         bombas.children.iterate((bomb) => {
             bomb.setScale(0.5).refreshBody();
             bomb.setBounce(1);
@@ -185,5 +185,7 @@ export default class Level2 extends Phaser.Scene {
         this.jumpSoundSFX = this.sound.add("jumpSound");
         this.passLevelSFX = this.sound.add("passLevel");
         this.deathSFX = this.sound.add("death");
+        this.pickSFX = this.sound.add("pick");
+
     }
 }

@@ -154,7 +154,7 @@ export default class Level1 extends Phaser.Scene {
         score += 15;
         textScore.setText(`Puntos: ${score}`);
 
-        bombas.createMultiple({ key: "bomba", repeat: 1 });
+        bombas.createMultiple({ key: "bomba", repeat: 0 });
         bombas.children.iterate((bomb) => {
             bomb.setScale(0.5).refreshBody();
             bomb.setBounce(1);
@@ -163,6 +163,7 @@ export default class Level1 extends Phaser.Scene {
             bomb.setX(Phaser.Math.FloatBetween(100, 700));
             bomb.allowGravity = false;
         });
+        this.pickSFX.play()
     }
     hitBomba(player, bomba) {
         player.setTint(0xff0000);
@@ -182,5 +183,6 @@ export default class Level1 extends Phaser.Scene {
         this.jumpSoundSFX = this.sound.add("jumpSound");
         this.passLevelSFX = this.sound.add("passLevel");
         this.deathSFX = this.sound.add("death");
+        this.pickSFX = this.sound.add("pick");
     }
 }

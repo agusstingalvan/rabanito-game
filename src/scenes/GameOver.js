@@ -10,8 +10,8 @@ export default class GameOver extends Phaser.Scene{
     }
     create(){
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        this.add.text(400, 300, `Perdiste! \nTus puntos son: ${score}\nTu tiempo: ${tiempo}`).setOrigin(0.5)
-        this.add.text(400, 400, `Presionar "R" para volver al principal`).setOrigin(0.5)
+        this.add.text(400, 300, `Perdiste! \nTus puntos son: ${score}\nTu tiempo: ${tiempo}`, { font: "18px Arial",}).setOrigin(0.5)
+        this.add.text(400, 400, `Presionar "R" para volver al menu principal`, { font: "18px Arial",}).setOrigin(0.5)
     }
     update(){
         if(keyR.isDown){
